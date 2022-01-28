@@ -1,0 +1,41 @@
+const mongoose = require("mongoose");
+const validator = require("validator")
+
+const Schema = mongoose.Schema
+
+const cartSchema = new mongoose.Schema({
+    cartTotal:Number,
+    dishes:Array,
+    restaurantID:String,
+    _id:false
+})
+
+const userSchema = new mongoose.Schema({
+    _id: String,
+    name: {
+        type: String
+    },
+    email: {
+        type: String,
+        validate(value) {
+            if (!validator.isEmail(value)) {
+                throw new Error("Email is invalid")
+            }
+        },
+        lowercase:true
+    },
+    phone:{
+        type: Number,
+        // required:true
+    },
+    createdAt:{
+        type: Date,
+        immutable:true
+    },
+    signedInAt:{
+        type:Date,
+    },
+    cart: cartSchema
+})
+
+module.exports = mongoose.model("User", userSchema)
