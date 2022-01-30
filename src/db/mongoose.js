@@ -2,7 +2,7 @@ const mongoose = require("mongoose")
 // const User = require("./model/User")
 
 mongoose.set('runValidators',true)
-mongoose.connect('mongodb://localhost/Food-Delivery')
+mongoose.connect(process.env.MONGODB_URL)
 
 // const user = new User({name: "Kshitiz", email: "a@gmail.com",})
 
