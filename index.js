@@ -1,4 +1,5 @@
 const express = require("express")
+const Restaurant = require("./src/db/model/Restaurant")
 require('./src/db/mongoose')
 const User = require("./src/db/model/User")
 
@@ -72,6 +73,67 @@ app.post('/users/:id', async (req, res) => {
     }
 })
 
+// Get all restaurants
+app.get('/restaurants', (req, res) => {
+    Restaurant.find({})
+        .then(restaurants => {
+            res.send(restaurants)
+        })
+        .catch(err => {
+            res.status(500).send(err)
+        })
+})
+
+// Get restaurant by id
+app.get('/restaurants/:id', (req, res) => {
+    Restaurant.findById(req.params.id)
+        .then(restaurant => {
+            if (!restaurant) {
+                return res.status(404).send("The restaurant was not found")
+            }
+            res.send(restaurant)
+        })
+        .catch(err => res.status(500).send(err))
+})
+
+// Creates a restaurant
+app.post('/restaurants', async (req, res) => {
+    try {
+        const restaurant = new Restaurant(req.body)
+        await restaurant.save()
+        res.send(restaurant)
+    }
+    catch (err) {
+        res.status(400).send(err.message)
+    }
+})
+
+app.patch('/restaurants/:id', async (req, res) => {
+    try {
+        const restaurant = await Restaurant.findByIdAndUpdate(req.params.id, req.body, { new: true })
+        if (!restaurant) {
+            return res.status(400).send("The restaurant was not found")
+        }
+        res.send(restaurant)
+    }
+    catch (err) {
+        res.status(500).send(err)
+    }
+})
+
+// Deletes a restaurant by id
+app.delete('/restaurants/:id', async (req, res) => {
+    try {
+        const restaurant = await Restaurant.findByIdAndDelete(req.params.id)
+        if (!restaurant) {
+            return res.status(404).send("Restaurant does not exist")
+        }
+        res.send(restaurant)
+    }
+    catch (err) {
+        res.status(500).send(err)
+    }
+})
 
 app.listen(port, () => {
     console.log(`listening at ${port}`)
