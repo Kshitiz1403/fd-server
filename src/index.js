@@ -1,7 +1,7 @@
 const express = require("express")
-require('./src/db/mongoose')
-const userRouter = require("./src/routers/user")
-const restaurantRouter = require("./src/routers/restaurant")
+require('./db/mongoose')
+const userRouter = require("./routers/user")
+const restaurantRouter = require("./routers/restaurant")
 
 const app = express()
 
