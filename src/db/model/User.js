@@ -35,7 +35,8 @@ const userSchema = new mongoose.Schema({
     signedInAt:{
         type:Date,
     },
-    cart: cartSchema
+    cart: cartSchema,
+    orders:[mongoose.Schema.Types.ObjectId]
 })
 
 module.exports = mongoose.model("User", userSchema)
