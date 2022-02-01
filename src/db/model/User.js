@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema({
     },
     phone:{
         type: Number,
-        // required:true
+        required:true
     },
     createdAt:{
         type: Date,
@@ -35,6 +35,10 @@ const userSchema = new mongoose.Schema({
     signedInAt:{
         type:Date,
     },
+    graduationYear:{
+        type:Number
+    }
+    ,
     cart: cartSchema,
     orders:[mongoose.Schema.Types.ObjectId]
 })
