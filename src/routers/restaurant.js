@@ -93,7 +93,7 @@ router.post('/restaurants/:id/upload', upload.single('image'), async (req, res) 
     const response = await imgbbUploader(process.env.IMGBB_KEY, `uploads/${file.filename}.${ext}`)
     console.log(response.url)
     try {
-        const resp = await axios.patch(`http://1bd7-49-36-235-94.ngrok.io/restaurants/${req.params.id}`, {
+        const resp = await axios.patch(`/restaurants/${req.params.id}`, {
             imageURI: response.url
         })
         return res.send(resp.data)
