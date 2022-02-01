@@ -10,6 +10,12 @@ const cartSchema = new mongoose.Schema({
     _id:false
 })
 
+const addressSchema = new Schema({
+    _id:false,
+    roomNumber:Number,
+    hostel:String
+})
+
 const userSchema = new mongoose.Schema({
     _id: String,
     name: {
@@ -37,8 +43,8 @@ const userSchema = new mongoose.Schema({
     },
     graduationYear:{
         type:Number
-    }
-    ,
+    },
+    address:addressSchema,
     cart: cartSchema,
     orders:[mongoose.Schema.Types.ObjectId]
 })
