@@ -26,13 +26,24 @@ router.get('/users/:id', (req, res) => {
 // Updates an user with the given UID
 // Eg. => localhost:5000/users/12222221
 
-//update 1 Feb 22- upserts the document i.e. creates or updates an existing document  
 router.patch('/users/:id', async(req, res) => {
     try{
-        const user = await User.findOneAndUpdate({_id:req.params.id}, req.body, {upsert:true, useFindAndModify:false, new:true})
+        const user = await User.findByIdAndUpdate(req.params.id, req.body, {new:true})
         if (!user){
             return res.status(400).send("The user was not found")
         }
+        res.send(user)
+    }
+    catch(err){
+        res.status(400).send(err)
+    }
+})
+
+//WARNING!!!! - validations do not run on this operation so use carefully
+//Upserts the document i.e. creates or updates an existing document  
+router.put('/users/:id', async(req, res) => {
+    try{
+        const user = await User.findOneAndUpdate({_id:req.params.id}, req.body, {upsert:true, useFindAndModify:false, new:true})
         res.send(user)
     }
     catch(err){
