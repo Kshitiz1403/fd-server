@@ -10,16 +10,6 @@ app.use(cors())
 
 const port = process.env.PORT || 5000
 
-// const multer = require("multer")
-
-// const upload = multer({
-//     dest:'images'
-// })
-
-// app.post('/upload',upload.single('upload') ,(req, res)=>{
-//     res.send("success!")
-// })
-
 app.use(express.json())
 
 app.use(userRouter)
