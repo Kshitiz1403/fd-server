@@ -69,6 +69,90 @@ router.delete('/restaurants/:id', async (req, res) => {
     }
 })
 
+// Create a dish by restaurant ID
+router.post('/restaurants/:id/dishes', async (req, res) => {
+    try {
+        const restaurant = await Restaurant.findById(req.params.id)
+        if (!restaurant) {
+            return res.status(404).send("Restaurant does not exist")
+        }
+        restaurant.dishes.push(req.body)
+        try {
+            await restaurant.save()
+            res.send(restaurant)
+        }
+        catch (err) {
+            res.status(400).send(err.message)
+        }
+    }
+    catch (err) {
+        res.status(400).send(err.message)
+    }
+})
+
+// Gets a dish by restaurant id and dish id
+router.get('/restaurants/:id/dishes/:dishID', (req, res) => {
+    Restaurant.findById(req.params.id)
+        .then(restaurant => {
+            if (!restaurant) {
+                return res.status(400).send("Restaurant does not exists")
+            }
+            const dish = restaurant.dishes.id(req.params.dishID)
+            if (!dish) {
+                return res.status(400).send("Dish does not exists")
+            }
+            return res.send(dish)
+        })
+        .catch(err => res.status(400).send(err))
+})
+
+router.get('/restaurants/:id/dishes', (req, res) => {
+    Restaurant.findById(req.params.id)
+        .then(restaurant => {
+            if (!restaurant) {
+                return res.status(400).send("Restaurant does not exists")
+            }
+            const dishes = restaurant.dishes
+            return res.send(dishes)
+        })
+        .catch(err => res.status(400).send(err))
+})
+// Updates a dish by restaurant id and dish id
+router.patch('/restaurants/:id/dishes/:dishID', (req, res) => {
+    Restaurant.findById(req.params.id)
+        .then(restaurant => {
+            if (!restaurant) {
+                return res.status(400).send("Restaurant does not exists")
+            }
+            const dish = restaurant.dishes.id(req.params.dishID)
+            if (!dish) {
+                return res.status(400).send("Dish does not exists")
+            }
+            dish.set(req.body)
+            return restaurant.save()
+        })
+        .then(restaurant => res.send(restaurant.dishes.id(req.params.dishID)))
+        .catch(err => res.status(400).send(err))
+})
+
+// Deletes a dish by restaurant ID and dish ID
+router.delete('/restaurants/:id/dishes/:dishID', (req, res) => {
+    Restaurant.findById(req.params.id)
+        .then(restaurant => {
+            if (!restaurant) {
+                return res.status(400).send("Restaurant does not exists")
+            }
+            const dish = restaurant.dishes.id(req.params.dishID)
+            if (!dish) {
+                return res.status(400).send("Dish does not exists")
+            }
+            dish.remove()
+            restaurant.save()
+            res.send(dish)
+        })
+        .catch(err => res.status(400).send(err))
+})
+
 const upload = multer({
     dest: 'uploads',
     limits: {
