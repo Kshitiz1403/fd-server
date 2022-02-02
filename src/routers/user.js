@@ -78,6 +78,17 @@ router.post('/users/:id', async (req, res) => {
     }
 })
 
+// Gets an users cart with given UID
+router.get('users/:id/cart', (req, res)=>{
+    User.findById(req.params.id)
+    .then(user=>{
+        if(!user){
+            return res.status(400).send("User does not exists")
+        }
+        return res.send(user.cart)
+    })
+    .catch(err=>res.status(400).send(err))
+})
 // Updates an users cart with given UID
 router.patch('/users/:id/cart', (req, res) => {
     User.findById(req.params.id)
