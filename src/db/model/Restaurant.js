@@ -18,13 +18,14 @@ const dishesSchema = new Schema({
         required: true
     },
     imageURI: {
-        type:String, 
-        validate(value){
-            if (!validator.isURL(value)){
+        type: String,
+        validate(value) {
+            if (!validator.isURL(value)) {
                 throw new Error("This is not a valid URL")
             }
         }
-    }
+    },
+    description: String
 })
 
 const restaurantSchema = new Schema({
