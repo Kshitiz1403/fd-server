@@ -5,7 +5,7 @@ const Schema = mongoose.Schema
 
 const cartSchema = new mongoose.Schema({
     cartTotal:Number,
-    dishes:Array,
+    dishes:[Schema.Types.ObjectId],
     restaurantID:String,
     _id:false
 })
