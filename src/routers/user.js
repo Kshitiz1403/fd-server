@@ -79,7 +79,7 @@ router.post('/users/:id', async (req, res) => {
 })
 
 // Gets an users cart with given UID
-router.get('users/:id/cart', (req, res)=>{
+router.get('/users/:id/cart', (req, res)=>{
     User.findById(req.params.id)
     .then(user=>{
         if(!user){
@@ -89,6 +89,7 @@ router.get('users/:id/cart', (req, res)=>{
     })
     .catch(err=>res.status(400).send(err))
 })
+
 // Updates an users cart with given UID
 router.patch('/users/:id/cart', (req, res) => {
     User.findById(req.params.id)
