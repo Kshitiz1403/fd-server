@@ -1,6 +1,5 @@
 const express = require("express")
 const { auth } = require("firebase-admin")
-const deleteUser = require("../../firebase")
 const User = require("../db/model/User")
 const router = new express.Router()
 

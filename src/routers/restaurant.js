@@ -56,6 +56,7 @@ router.post('/restaurants', async (req, res) => {
     }
 })
 
+// Updates a restaurant with given id
 router.patch('/restaurants/:id', async (req, res) => {
     try {
         const restaurant = await Restaurant.findByIdAndUpdate(req.params.id, req.body, { new: true })
