@@ -61,9 +61,8 @@ router.delete('/users/:id', async (req, res) => {
             return res.status(404).send("User does not exist")
         }
         auth().deleteUser(req.params.id)
-            .then(() => res.send("Successfully deleted"))
-            .catch(() => res.status.send("Error deleting user"))
-        res.send(user)
+            .then(() => res.send({"Successfully deleted": user}))
+            .catch(() => res.status(400).send("Error deleting user"))
     }
     catch (err) {
         res.status(500).send(err)
