@@ -3,4 +3,3 @@ config
 uploads
 .env
 firebasePrivateKey.json
-firebasePrivateKey.json
