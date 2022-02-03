@@ -1,4 +1,6 @@
 const express = require("express")
+const { auth } = require("firebase-admin")
+const deleteUser = require("../../firebase")
 const User = require("../db/model/User")
 const router = new express.Router()
 
@@ -58,6 +60,9 @@ router.delete('/users/:id', async (req, res) => {
         if (!user) {
             return res.status(404).send("User does not exist")
         }
+        auth().deleteUser(req.params.id)
+            .then(() => res.send("Successfully deleted"))
+            .catch(() => res.status.send("Error deleting user"))
         res.send(user)
     }
     catch (err) {
@@ -79,15 +84,15 @@ router.post('/users/:id', async (req, res) => {
 })
 
 // Gets an users cart with given UID
-router.get('/users/:id/cart', (req, res)=>{
+router.get('/users/:id/cart', (req, res) => {
     User.findById(req.params.id)
-    .then(user=>{
-        if(!user){
-            return res.status(400).send("User does not exists")
-        }
-        return res.send(user.cart)
-    })
-    .catch(err=>res.status(400).send(err))
+        .then(user => {
+            if (!user) {
+                return res.status(400).send("User does not exists")
+            }
+            return res.send(user.cart)
+        })
+        .catch(err => res.status(400).send(err))
 })
 
 // Updates an users cart with given UID
